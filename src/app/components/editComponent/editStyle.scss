@@ -1,0 +1,81 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+}
+
+.edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    width: 300px;
+    height: 50px;
+    margin: 0;
+    background-color: white;
+}
+
+.userUpdate{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 250px;
+    background-color: black;
+}
+
+.inputChange{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputChange input{
+    width: 200px;
+    height: 20px;
+    margin-top: 10px;
+}
+
+.inputChange span{
+    color: white;
+    width: 100%;
+}
+
+.inputChange span div:first-child{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.bntConfirm{
+    width: 210px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.bntConfirm button{
+    width: 70px;
+    height: 25px;
+    background-color: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.bntConfirm button:hover{
+    background-color: #045c70;
+}
+
+.bntConfirm a{
+    text-decoration: none;
+    color: black;
+}
+
+.bntConfirm button:nth-child(2){
+    margin-left: 10px;
+}

@@ -1,0 +1,24 @@
+.cadastro{
+    width: 350px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.marginPassEmail{
+    margin-top: 5px;
+}
+
+.btns{
+    margin-top: 10px;
+    width: 250px;
+    display: flex; 
+    justify-content: flex-end;
+}
+
+.btns button:nth-child(2){
+    margin-left: 10px; ;
+    margin-right: 2px;
+}
