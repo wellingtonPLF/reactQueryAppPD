@@ -34,3 +34,5 @@ export class DecisaoService {
         return data;
     }
 }
+
+export default new DecisaoService();

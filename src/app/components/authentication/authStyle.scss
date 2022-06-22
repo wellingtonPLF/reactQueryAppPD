@@ -1,24 +1,51 @@
-.cadastro{
-    width: 350px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
+$btnDecoration: none;
+$btnColor: white;
+
+.auth{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
     align-items: center;
-    justify-content: center
 }
 
-.marginPassEmail{
-    margin-top: 5px;
+.auth h1{
+    margin-top: 0px;
+}
+
+.auth button{
+    border: unset;
+    height: 30px;
+    padding-inline: 22px;
 }
 
 .btns{
-    margin-top: 10px;
-    width: 250px;
     display: flex; 
-    justify-content: flex-end;
+    justify-content: space-around;
+    width: 200px;
 }
 
-.btns button:nth-child(2){
-    margin-left: 10px; ;
-    margin-right: 2px;
+.signIn{
+    background-color: #081d1d;
+}
+
+.signIn a {
+    text-decoration: $btnDecoration;
+    color: $btnColor;
+}
+  
+.signUp{
+    margin-left: 10px;
+    background-color: #064e4e;
+    color: white;
+}
+
+.signUp a {
+    text-decoration: $btnDecoration;
+    color: $btnColor;
+}
+
+.signOut{
+    background-color: #ea1212; 
+    color: white; 
+    width: 200px;
 }

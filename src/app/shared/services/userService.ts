@@ -14,7 +14,8 @@ class UsuarioService{
     }
 
     async inserir(usuario: Usuario){
-        const { data } = await this.api.post('/', usuario);
+        const user = {name: usuario.name, email: usuario.email, password: usuario.password, decisions: []}
+        const { data } = await this.api.post('/', user);
         return data;
     }
 

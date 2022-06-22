@@ -1,44 +1,34 @@
-import React, { ChangeEventHandler } from 'react';
-import './authStyle.scss'
-import { Usuario } from './../../shared/model/usuario';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import './authStyle.scss'
 
 interface Props {
-    usuario: Usuario;
-    setName: (e: string) => void;
-    setPassword: (e: string) => void;
-    setEmail: (e: string) => void;
-    cadastrarUsuario: (usuario: Usuario) => void;
+    token: number | undefined;
+    removeToken: () => void;
 }
 
-const AuthLayout = ({ usuario, setName, setPassword, setEmail, cadastrarUsuario }: Props) => {
+const AuthLayout = ({token, removeToken}: Props) => {
     return (
-        <>
-            <div className='cadastro'>
-                <h1>Cadastro</h1>
-                <div>
-                    <div>Username: </div>
-                    <input value = {usuario.name} 
-                    onChange={(e) => setName(e.target.value)} />
-                </div>
-                <div className='marginPassEmail'>
-                    <div>Password: </div>
-                    <input value = {usuario.password} 
-                    onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
-                </div>
-                <div className='marginPassEmail'>
-                    <div>Email: </div>
-                    <input value = {usuario.email} 
-                    onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div className='btns'>
-                    <button onChange={ () => cadastrarUsuario(usuario)}>Confirmar</button>
-                    <button>
-                        <Link to="/" style={{textDecoration: 'none'}}>Cancel</Link>
-                    </button>
-                </div>
-            </div>
-        </>
+        <div className="auth">
+            <h1>Make Your Decision</h1>
+            {
+                token && (
+                    <div className='btns'>
+                        <button className="signIn">
+                            <Link to='/login'>Sign in</Link>
+                        </button>
+                        <button className="signUp">
+                            <Link to='/cadastro'>Sign up</Link>
+                        </button>
+                    </div>
+                )
+            }
+            {
+                !token && (
+                    <button onClick={() => removeToken()} className="signOut">Sign Out</button>
+                )
+            }
+        </div>
     );
 };
 
