@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import userService from '../../shared/services/userService';
 import EditView from './editView';
 import UsuarioNull from '../../shared/solid/nullObject/usuarioNull';
+import sessionStorage from '../../shared/utils/sessionStorage';
 
 const EditScript = () => {
 
@@ -12,11 +13,14 @@ const EditScript = () => {
     }
 
     useEffect( () => {
-        userService.pesquisarPorId(3).then(
-            it => {
-                setUsuario(it)
-            }
-        )
+        const token = sessionStorage.getToken('usuario')
+        if (token){
+            userService.pesquisarPorId(parseInt(token)).then(
+                it => {
+                    setUsuario(it)
+                }
+            )
+        }
     }, [])
 
     const setUser = (userAtr: string, event: ChangeEvent<HTMLInputElement>) => {

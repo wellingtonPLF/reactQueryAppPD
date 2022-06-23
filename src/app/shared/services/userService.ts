@@ -33,6 +33,12 @@ class UsuarioService{
         const { data } = await this.api.put(`/${usuario.iduser}`, usuario);
         return data;
     }
+
+    async getUserByNome(usuario: Usuario) {
+        const { data } = await this.api.get('/');
+        const result = data.filter( (it: Usuario) => it.name === usuario.name)
+        return result;
+    }
 }
 
 export default new UsuarioService();

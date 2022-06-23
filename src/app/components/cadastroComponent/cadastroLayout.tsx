@@ -32,9 +32,11 @@ const CadastroLayout = ({ usuario, setName, setPassword, setEmail, cadastrarUsua
                     onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className='btns'>
-                    <button onClick={ () => cadastrarUsuario()}>Confirmar</button>
                     <button>
-                        <Link to="/" style={{textDecoration: 'none'}}>Cancel</Link>
+                        <Link to="/" style={{textDecoration: 'none', color: 'black'}}>Cancel</Link>
+                    </button>
+                    <button onClick={ () => cadastrarUsuario()}>
+                        <Link to="/" style={{textDecoration: 'none', color: 'black'}}>Confirmar</Link>
                     </button>
                 </div>
             </div>

@@ -3,19 +3,19 @@ import { Usuario } from "../../model/usuario";
 class UsuarioNull extends Usuario {
 
     public get iduser(): string | undefined {
-        return '0'
+        return undefined
     }
 
     public get name(): string | undefined {
-        return 'anything'
+        return ''
     }
 
     public get password() : string | undefined{
-        return '@#!%&*';
+        return ''
       }
     
     public get email() : string | undefined {
-        return 'example@gmail.com';
+        return ''
     }
 
     public get decisions() : Array<number> | undefined {

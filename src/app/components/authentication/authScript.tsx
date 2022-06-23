@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import sessionStorage from '../../shared/utils/sessionStorage';
 import AuthLayout from './authLayout';
 
 const AuthScript = () => {
-    const [token, setToken] = useState<number | undefined>(4)
+    const [token, setToken] = useState<number | undefined>()
+
+    const handleToken = (token: any) => {
+        setToken(token)
+    }
+
+    useEffect( () => {
+        const tokenId = sessionStorage.getToken('usuario')
+        if (tokenId){
+            handleToken(tokenId)
+        }
+    }, [])
 
     const removeToken = () => {
+        if (token != undefined){
+            sessionStorage.removeToken(token)
+        }
         setToken(undefined)
     }
 

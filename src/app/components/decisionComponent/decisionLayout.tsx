@@ -39,7 +39,7 @@ const DecisionLayout = ({ usuario, tokenId, decisions, saveEdit, removeDecision,
                             { 
                                 decisions.map( (el, index) => (
                                     <div key={el.idDecision} className="decisao">
-                                        <div>
+                                        <div style={{marginBottom: '4px'}}>
                                             <b>-</b>&nbsp;&nbsp;&nbsp;
                                             <input onChange={ (e) => saveEdit(e, index)} spellCheck="false" value={el.name} />
                                         </div>
@@ -56,6 +56,7 @@ const DecisionLayout = ({ usuario, tokenId, decisions, saveEdit, removeDecision,
                     )
                 }
             </div>
+            <button onClick={ () => console.log(decisions)}>clique</button>
         </>
     );
 };

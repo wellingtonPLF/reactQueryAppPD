@@ -10,11 +10,13 @@ $btnColor: white;
 
 .auth h1{
     margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 .auth button{
     border: unset;
     height: 30px;
+    cursor: pointer;
     padding-inline: 22px;
 }
 
@@ -22,6 +24,7 @@ $btnColor: white;
     display: flex; 
     justify-content: space-around;
     width: 200px;
+    margin-bottom: 5px;
 }
 
 .signIn{

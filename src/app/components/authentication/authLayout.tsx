@@ -12,7 +12,7 @@ const AuthLayout = ({token, removeToken}: Props) => {
         <div className="auth">
             <h1>Make Your Decision</h1>
             {
-                token && (
+                !token && (
                     <div className='btns'>
                         <button className="signIn">
                             <Link to='/login'>Sign in</Link>
@@ -24,7 +24,7 @@ const AuthLayout = ({token, removeToken}: Props) => {
                 )
             }
             {
-                !token && (
+                token && (
                     <button onClick={() => removeToken()} className="signOut">Sign Out</button>
                 )
             }

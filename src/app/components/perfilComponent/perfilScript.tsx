@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Usuario } from "../../shared/model/usuario";
+import userService from "../../shared/services/userService";
 import PerfilLayout from "./perfilLayout";
 
 const PerfilScript = () => {
     
-    const [usuario] = useState(new Usuario())
+    const [usuario, setUsuario] = useState()
     const [url, setUrl] = useState('')
 
     const handleUrl = (value: any) => {
         setUrl(value)
     }
+
+    useEffect( () => {
+        const token = sessionStorage.getItem('usuario')
+        if(token){
+            userService.pesquisarPorId(parseInt(token)).then(
+                it => {
+                    setUsuario(it)
+                }
+            )
+        }
+    }, [])
 
     const handleUserImage = (e: any) => {
         const selectedFile = e.target.files[0];

@@ -4,7 +4,7 @@ import usuarioService from './../../shared/services/userService';
 import CadastroLayout from './cadastroLayout';
 
 const CadastroScript = () => {
-    const [usuario] = useState(new Usuario())
+    const [usuario, setUsuario] = useState(new Usuario())
 
     const ChangeName = (name: string) => {
         usuario.name = name
@@ -23,13 +23,19 @@ const CadastroScript = () => {
     }, [])
 
     const cadastrarUsuario = () => {
-        try {            
-            usuarioService.inserir(usuario).then(
-                it => {}
-            )
+        try {
+            if (usuario.name != undefined && usuario.password != undefined && usuario.email != undefined){
+                usuarioService.inserir(usuario).then(
+                    it => {
+                    }
+                )
+            }
+            else{
+                throw new Error("Really? You didn't passed nothing!")
+            }
         }
         catch (e) {
-            console.log("Dados em Falta!")
+            console.log(e)
         }
     }
 
