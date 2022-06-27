@@ -8,9 +8,11 @@ interface Props {
     setPassword: (e: string) => void;
     logarUsuario: () => void;
     setUser: () => void;
+    countFails: number;
+    loginAccepted: boolean;
 }
 
-const LoginLayout = ({ usuario, setName, setPassword, logarUsuario, setUser }: Props) => {
+const LoginLayout = ({ usuario, setName, setPassword, logarUsuario, setUser, countFails, loginAccepted }: Props) => {
 
     return (
         <>
@@ -28,12 +30,15 @@ const LoginLayout = ({ usuario, setName, setPassword, logarUsuario, setUser }: P
                             <input type='text' value = {usuario.password} 
                             onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
                         </div>
+                        { loginAccepted && (
+                            <div className='wrongUser'>Usuario incorreto {countFails}</div>
+                        )}
                         <div className='btnsLogin'>
                             <button>
                                 <Link to="/" style={{textDecoration: 'none', color: 'black'}}>Cancel</Link>
                             </button>
-                            <button onClick={ () => logarUsuario()}>
-                                <Link to="/" style={{textDecoration: 'none', color: 'black'}}>Confirm</Link>
+                            <button onClick={ () => logarUsuario()} style={{textDecoration: 'none', color: 'black'}}>
+                                Confirm
                             </button>
                         </div>
                     </div>

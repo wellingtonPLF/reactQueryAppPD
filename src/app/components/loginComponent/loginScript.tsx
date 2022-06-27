@@ -4,12 +4,21 @@ import usuarioService from './../../shared/services/userService';
 import LoginLayout from './loginLayout';
 import sessionStorage from '../../shared/utils/sessionStorage';
 import UsuarioNull from '../../shared/solid/nullObject/usuarioNull';
+import { useNavigate } from "react-router-dom";
 
 const LoginScript = () => {
     const [usuario, setUsuario] = useState(new UsuarioNull())
+    const navegate = useNavigate()
+    const [countFails, setCountFails] = useState(0)
+    const [loginAcception, setLoginAcception ] = useState(false)
 
     const ChangeUser = () => {
         setUsuario(new UsuarioNull())
+    }
+
+    const HandleCount = () => {
+        setLoginAcception(true)
+        setCountFails(countFails+1)
     }
 
     const ChangeName = (name: string) => {
@@ -31,6 +40,7 @@ const LoginScript = () => {
                     it => {
                         if (it[0] == undefined){
                             ChangeUser()
+                            HandleCount()
                             throw new Error('Esse usuario não existe 1!')
                         }
                         const id = it[0].iduser
@@ -38,11 +48,13 @@ const LoginScript = () => {
                             usuarioService.pesquisarPorId(id).then(
                               result => {
                                 if (result.password == usuario.password){
-                                    console.log('ok')
                                     sessionStorage.setToken('usuario', id)
+                                    setLoginAcception(false)
+                                    navegate("/")
                                 }
                                 else{
-                                  throw new Error('Esse usuario não existe 2!')
+                                    HandleCount()
+                                    throw new Error('Esse usuario não existe 2!')
                                 }
                               }
                             )
@@ -59,7 +71,7 @@ const LoginScript = () => {
     return (
         <>
             <LoginLayout usuario={usuario} logarUsuario={logarUsuario} setUser={ChangeUser}
-            setName={ChangeName} setPassword={ChangePassword}  />
+            setName={ChangeName} setPassword={ChangePassword} countFails={countFails} loginAccepted={loginAcception}/>
         </>
     );
 };

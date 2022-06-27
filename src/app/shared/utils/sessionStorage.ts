@@ -11,7 +11,6 @@ class SessionStorageUtil {
     
     setToken(tokenName: string, token: number) {
         sessionStorage.setItem(tokenName, token.toString());
-        console.log("Token Add");
     }
 
     removeToken(token: number) {
