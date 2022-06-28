@@ -1,15 +1,17 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import userService from '../../shared/services/userService';
 import EditView from './editView';
-import UsuarioNull from '../../shared/solid/nullObject/usuarioNull';
 import sessionStorage from '../../shared/utils/sessionStorage';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../redux/Action/usuarioAction';
 
 const EditScript = () => {
 
-    const [usuario, setUsuario] = useState(new UsuarioNull())
+    const dispatch = useDispatch();
+    const usuario = useSelector( (state: any) => state.usuarioRedux)
 
     const handleUsuarioChange = (obj: any) => {
-        setUsuario(obj)
+        dispatch(setUser(obj))
     }
 
     useEffect( () => {
@@ -17,13 +19,13 @@ const EditScript = () => {
         if (token){
             userService.pesquisarPorId(parseInt(token)).then(
                 it => {
-                    setUsuario(it)
+                    dispatch(setUser(it))
                 }
             )
         }
     }, [])
 
-    const setUser = (userAtr: string, event: ChangeEvent<HTMLInputElement>) => {
+    const setUsuario = (userAtr: string, event: ChangeEvent<HTMLInputElement>) => {
         
         if(userAtr === 'name') {
             handleUsuarioChange({...usuario, name: event.target.value})
@@ -48,7 +50,7 @@ const EditScript = () => {
 
     return (
         <>
-            <EditView user={usuario} inputUser={setUser} userChange={changeUser}/>
+            <EditView user={usuario} inputUser={setUsuario} userChange={changeUser}/>
         </>
     );
 };

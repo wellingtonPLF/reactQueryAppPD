@@ -7,7 +7,7 @@ interface Props {
     imageHandler: (e: any) => void;
 }
 
-const PerfilLayout = ({ usuario, imageHandler, url } : Props ) => {
+const PerfilLayout = ({ usuario, imageHandler, url} : Props ) => {
 
     const handleRef = () => {
         document.getElementById('takePic')?.click();
@@ -17,8 +17,7 @@ const PerfilLayout = ({ usuario, imageHandler, url } : Props ) => {
         <>       
             <input id="takePic" type="file" style={{display: 'none'}} 
             onChange={ (e) => imageHandler(e)}/>
-
-            { usuario ? 
+            { usuario?.iduser ? 
                 (
                 <div onClick={ () => handleRef()} className='imagemUser'>
                     {
@@ -27,7 +26,8 @@ const PerfilLayout = ({ usuario, imageHandler, url } : Props ) => {
                     }
                 </div>
                 ) : 
-            (<div className='imagemUser'>+</div>)}
+                (<div className='imagemUser'>+</div>)
+            }
         </>
     );
 };

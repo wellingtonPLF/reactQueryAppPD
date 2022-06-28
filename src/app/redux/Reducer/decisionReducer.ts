@@ -1,8 +1,7 @@
-import DecisionNull from "../../shared/solid/nullObject/decisionNull";
 
-export default function myReducer(state = new DecisionNull(), action: any){
+export default function decisionReducer(state = null, action: any){
     switch (action.type){
-        case 'Decision':
+        case 'Decisions':
             return action.payload[0];
         default:
             return state;

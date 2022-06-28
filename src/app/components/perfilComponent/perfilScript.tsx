@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Usuario } from "../../shared/model/usuario";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/Action/usuarioAction";
 import userService from "../../shared/services/userService";
 import PerfilLayout from "./perfilLayout";
 
 const PerfilScript = () => {
     
-    const [usuario, setUsuario] = useState()
     const [url, setUrl] = useState('')
+    const dispatch = useDispatch()
+    const usuario = useSelector( (state: any) => state.usuarioRedux)
 
     const handleUrl = (value: any) => {
         setUrl(value)
@@ -17,7 +19,7 @@ const PerfilScript = () => {
         if(token){
             userService.pesquisarPorId(parseInt(token)).then(
                 it => {
-                    setUsuario(it)
+                    dispatch(setUser(it))
                 }
             )
         }
@@ -39,7 +41,7 @@ const PerfilScript = () => {
 
     return (
         <>
-            <PerfilLayout usuario={usuario} imageHandler={handleUserImage} url={url} />   
+            <PerfilLayout usuario={usuario} imageHandler={handleUserImage} url={url}/>   
         </>
     );
 };

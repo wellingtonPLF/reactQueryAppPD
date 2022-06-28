@@ -24,7 +24,7 @@ const DecisionLayout = ({ usuario, tokenId, decisions, saveEdit, removeDecision,
                     }
                 </div>
                 <div style={{marginTop: "7px"}}>
-                    { tokenId ? (<Link style={{paddingBottom: '4px'}} to="/edit">edit</Link>) : 
+                    { usuario ? (<Link style={{paddingBottom: '4px'}} to="/edit">edit</Link>) : 
                         (<div style={{backgroundColor: "#2b2114"}}>.&nbsp;&nbsp;.&nbsp;&nbsp;.</div>)
                     }
                 </div>

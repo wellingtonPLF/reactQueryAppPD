@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import { Usuario } from "../../shared/model/usuario";
 import DecisionLayout from "./decisionLayout";
 import usuarioService from "../../shared/services/userService";
 import decisionService from "../../shared/services/decisionService";
 import { Decision } from "../../shared/model/decision";
 import sessionStorage from "../../shared/utils/sessionStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/Action/usuarioAction";
+import { setDecisions } from "../../redux/Action/decisionAction";
+import DecisionNull from "../../shared/solid/nullObject/decisionNull";
 
 const DecisionScript = () => {
-    const [usuario, setUsuario] = useState<Usuario | undefined>()
-    const [decisions, setDecisions] = useState<Array<Decision>>()
     const [tokenId, setTokenId] = useState()
+    const dispatch = useDispatch();
+    const usuario = useSelector( (state: any) => state.usuarioRedux)
+    const decisions = useSelector( (state: any) => state.decisionRedux)
 
     const handleToken = (token: any) => {
       setTokenId(token)
@@ -21,7 +25,7 @@ const DecisionScript = () => {
       if(token != undefined){
         usuarioService.pesquisarPorId(parseInt(token)).then(
           it => {
-            setUsuario(it)
+            dispatch(setUser(it))
             if(it.decisions != undefined){
               const dc = new Array<Decision>()
               for(let decisaoID of it.decisions){
@@ -29,7 +33,7 @@ const DecisionScript = () => {
                   result => {
                     dc.push(result)
                     if (dc.length == it.decisions.length){
-                      setDecisions(dc)
+                      dispatch(setDecisions(dc))
                     }
                   }
                 )
@@ -39,13 +43,13 @@ const DecisionScript = () => {
         );
       }
       else{
-        setUsuario(undefined)
-        setDecisions(new Array<Decision>())
+        dispatch(setUser(null))
+        dispatch(setDecisions(new Array<Decision>(new DecisionNull())))
       }
     }, [])
 
     const editDecision = () => {
-      
+
     }
 
     const removingDecision = () => {
@@ -53,7 +57,22 @@ const DecisionScript = () => {
     }
 
     const insertDecision = () => {
+      const decisao = new Array<Decision>()
+      let df = new Decision()
+      df.name = "New"
+      df.iduser = parseInt(usuario!.iduser)
+      decisao.push(...decisions)
+      decisao.push(df)
 
+      /*
+      decisionService.inserir(df).then(
+        result => {
+          decisions.push(result)
+          df = result
+        }
+      )
+      */
+      dispatch(setDecisions(decisao))
     }
 
     return (

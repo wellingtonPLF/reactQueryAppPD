@@ -14,7 +14,6 @@ const LoginScript = () => {
     const [countFails, setCountFails] = useState(0)
     const [loginAcception, setLoginAcception ] = useState(false)
     const dispatch = useDispatch();
-    const result = useSelector( (state: any) => state.usuarioRedux)
 
     const ChangeNoUser = () => {
         setUsuario(new UsuarioNull())
