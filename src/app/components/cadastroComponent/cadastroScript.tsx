@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Usuario } from '../../shared/model/usuario';
 import usuarioService from './../../shared/services/userService';
 import CadastroLayout from './cadastroLayout';
 
 const CadastroScript = () => {
     const [usuario, setUsuario] = useState(new Usuario())
+    const navegate = useNavigate()
 
     const ChangeName = (name: string) => {
         usuario.name = name
@@ -27,6 +29,7 @@ const CadastroScript = () => {
             if (usuario.name != undefined && usuario.password != undefined && usuario.email != undefined){
                 usuarioService.inserir(usuario).then(
                     it => {
+                        navegate("/")
                     }
                 )
             }

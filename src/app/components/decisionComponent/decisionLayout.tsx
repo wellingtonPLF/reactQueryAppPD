@@ -56,7 +56,6 @@ const DecisionLayout = ({ usuario, tokenId, decisions, saveEdit, removeDecision,
                     )
                 }
             </div>
-            <button onClick={ () => console.log(decisions)}>clique</button>
         </>
     );
 };

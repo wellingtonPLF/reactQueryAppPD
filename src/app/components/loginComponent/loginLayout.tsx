@@ -7,12 +7,11 @@ interface Props {
     setName: (e: string) => void;
     setPassword: (e: string) => void;
     logarUsuario: () => void;
-    setUser: () => void;
     countFails: number;
     loginAccepted: boolean;
 }
 
-const LoginLayout = ({ usuario, setName, setPassword, logarUsuario, setUser, countFails, loginAccepted }: Props) => {
+const LoginLayout = ({ usuario, setName, setPassword, logarUsuario, countFails, loginAccepted }: Props) => {
 
     return (
         <>

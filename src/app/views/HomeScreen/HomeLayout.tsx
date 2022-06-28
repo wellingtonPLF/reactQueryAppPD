@@ -1,9 +1,9 @@
 
 const HomeLayout = () => {
     return (
-        <>
-          <div>Hi!</div>  
-        </>
+        <div className="centralizar" style={{height: '100vh'}}>
+          <div>Hi!</div> 
+        </div>
     );
 };
 

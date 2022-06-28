@@ -5,14 +5,18 @@ import LoginLayout from './loginLayout';
 import sessionStorage from '../../shared/utils/sessionStorage';
 import UsuarioNull from '../../shared/solid/nullObject/usuarioNull';
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../redux/Action/usuarioAction';
 
 const LoginScript = () => {
     const [usuario, setUsuario] = useState(new UsuarioNull())
     const navegate = useNavigate()
     const [countFails, setCountFails] = useState(0)
     const [loginAcception, setLoginAcception ] = useState(false)
+    const dispatch = useDispatch();
+    const result = useSelector( (state: any) => state.usuarioRedux)
 
-    const ChangeUser = () => {
+    const ChangeNoUser = () => {
         setUsuario(new UsuarioNull())
     }
 
@@ -39,7 +43,7 @@ const LoginScript = () => {
                 usuarioService.getUserByNome(usuario).then(
                     it => {
                         if (it[0] == undefined){
-                            ChangeUser()
+                            ChangeNoUser()
                             HandleCount()
                             throw new Error('Esse usuario não existe 1!')
                         }
@@ -50,6 +54,7 @@ const LoginScript = () => {
                                 if (result.password == usuario.password){
                                     sessionStorage.setToken('usuario', id)
                                     setLoginAcception(false)
+                                    dispatch(setUser(usuario))
                                     navegate("/")
                                 }
                                 else{
@@ -70,8 +75,8 @@ const LoginScript = () => {
 
     return (
         <>
-            <LoginLayout usuario={usuario} logarUsuario={logarUsuario} setUser={ChangeUser}
-            setName={ChangeName} setPassword={ChangePassword} countFails={countFails} loginAccepted={loginAcception}/>
+            <LoginLayout usuario={usuario} logarUsuario={logarUsuario} setName={ChangeName}
+            setPassword={ChangePassword} countFails={countFails} loginAccepted={loginAcception}/>
         </>
     );
 };

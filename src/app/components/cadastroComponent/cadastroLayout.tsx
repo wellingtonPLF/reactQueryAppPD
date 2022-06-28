@@ -35,8 +35,8 @@ const CadastroLayout = ({ usuario, setName, setPassword, setEmail, cadastrarUsua
                     <button>
                         <Link to="/" style={{textDecoration: 'none', color: 'black'}}>Cancel</Link>
                     </button>
-                    <button onClick={ () => cadastrarUsuario()}>
-                        <Link to="/" style={{textDecoration: 'none', color: 'black'}}>Confirmar</Link>
+                    <button onClick={ () => cadastrarUsuario()}  style={{textDecoration: 'none', color: 'black'}}>
+                        Confirmar
                     </button>
                 </div>
             </div>
