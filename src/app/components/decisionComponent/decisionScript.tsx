@@ -44,7 +44,7 @@ const DecisionScript = () => {
       }
       else{
         dispatch(setUser(null))
-        dispatch(setDecisions(new Array<Decision>(new DecisionNull())))
+        dispatch(setDecisions(null))
       }
     }, [])
 
