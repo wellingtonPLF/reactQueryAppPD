@@ -1,20 +1,20 @@
 export class Decision{
 
-    private _idDecision?: string;
+    private _idDecision?: number;
     private _name?: string;
     private _iduser?: number;
 
-    constructor(id?: string, name?: string, iduser?: number) {
+    constructor(id?: number, name?: string, iduser?: number) {
         this._idDecision = id;
         this._name = name
         this._iduser = iduser
     }
 
-    public get idDecision() : string | undefined{
+    public get idDecision() : number | undefined{
         return this._idDecision;
     }
 
-    public set idDecision(idDecision: string | undefined) {
+    public set idDecision(idDecision: number | undefined) {
         this._idDecision = idDecision;
     }
 

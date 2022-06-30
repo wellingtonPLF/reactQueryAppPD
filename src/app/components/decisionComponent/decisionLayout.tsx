@@ -7,7 +7,7 @@ import './decisionStyle.scss'
 interface Props {
     usuario: Usuario | undefined
     tokenId: number | undefined
-    decisions: Array<Decision> | undefined
+    decisions: Array<Decision> | null | undefined
     saveEdit: (e: any, index: number) => void;
     addDecision: () => void;
     removeDecision: (index: number) => void;

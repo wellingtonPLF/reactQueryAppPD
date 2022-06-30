@@ -3,8 +3,8 @@ import { Decision } from "../model/decision";
 
 export class DecisaoService {
 
-    // api = axios.create({ baseURL: 'http://localhost:8088/decisions/' });
-    api = axios.create({ baseURL: 'https://decision-pd-service.herokuapp.com/decisions/' });
+    api = axios.create({ baseURL: 'http://localhost:8082/decisions/' });
+    //api = axios.create({ baseURL: 'https://decision-pd-service.herokuapp.com/decisions/' });
 
     constructor() {
     }
@@ -15,7 +15,8 @@ export class DecisaoService {
     }
 
     async inserir(decision: Decision){
-        const { data } = await this.api.post('/', decision);
+        const dc = {idDecision: undefined, name: decision.name, iduser: decision.iduser}
+        const { data } = await this.api.post('/', dc);
         return data;
     }
 

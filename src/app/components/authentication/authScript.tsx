@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setDecisions } from '../../redux/Action/decisionAction';
 import { setUser } from '../../redux/Action/usuarioAction';
-
-import UsuarioNull from '../../shared/solid/nullObject/usuarioNull';
 import sessionStorage from '../../shared/utils/sessionStorage';
 import AuthLayout from './authLayout';
 

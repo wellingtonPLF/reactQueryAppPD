@@ -1,9 +1,12 @@
 
-export default function decisionReducer(state = null, action: any){
+export default function decisionReducer(state = {}, action: any){
     switch (action.type){
         case 'Decisions':
-            return action.payload[0];
+            if (action.payload == null) {
+                return null;
+            }
+            return action.payload
         default:
-            return state;
+            return null;
     }
 }

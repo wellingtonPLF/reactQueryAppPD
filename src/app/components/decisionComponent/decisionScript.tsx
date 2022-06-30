@@ -7,17 +7,27 @@ import sessionStorage from "../../shared/utils/sessionStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/Action/usuarioAction";
 import { setDecisions } from "../../redux/Action/decisionAction";
-import DecisionNull from "../../shared/solid/nullObject/decisionNull";
 
 const DecisionScript = () => {
     const [tokenId, setTokenId] = useState()
     const dispatch = useDispatch();
     const usuario = useSelector( (state: any) => state.usuarioRedux)
-    const decisions = useSelector( (state: any) => state.decisionRedux)
+    const dcRedux = useSelector( (state: any) => state.decisionRedux)
+    const [decisions, changeDecisions] = useState<Array<Decision> | null>()
 
     const handleToken = (token: any) => {
       setTokenId(token)
     }
+
+    const handleDecision = () => {
+      if (decisions != null && decisions != undefined ){
+        changeDecisions([...decisions])
+      }
+    }
+
+    useEffect( () => {
+      changeDecisions(dcRedux)
+    }, [dcRedux])
 
     useEffect( () => {
       const token = sessionStorage.getToken('usuario')
@@ -33,6 +43,7 @@ const DecisionScript = () => {
                   result => {
                     dc.push(result)
                     if (dc.length == it.decisions.length){
+                      changeDecisions(dc)
                       dispatch(setDecisions(dc))
                     }
                   }
@@ -44,35 +55,60 @@ const DecisionScript = () => {
       }
       else{
         dispatch(setUser(null))
-        dispatch(setDecisions(null))
+        changeDecisions(null)
       }
     }, [])
 
-    const editDecision = () => {
-
+    const editDecision = (e: any, index: number) => {
+      decisions![index].name = e.target.value
+      handleDecision()
+      setTimeout( () => {
+        if (e.keyCode != 13){
+          executeListing(e.target.value, index)
+        }
+      }, 200)
     }
 
-    const removingDecision = () => {
+    const executeListing = (value: string, index: number) => {
+      if(value != '' && decisions != undefined){
+        if(decisions.length != 0){
+          const decisao = decisions[index]
+          if(decisao.idDecision != undefined){
+            decisionService.pesquisarPorId(decisao.idDecision).then(
+              it => {
+                decisionService.atualizar(decisions![index]).then(
+                  result => console.log("Decisão Atualizada!")
+                )
+              }
+            )
+          }
+        }
+      }
+    }
 
+    const removingDecision = (index: number) => {
+      const id = decisions![index].idDecision;
+      if(id != undefined){
+        decisionService.remover(id).then(
+          it =>{
+            decisions!.splice(index, 1);
+            handleDecision()
+          }
+        )
+      }
     }
 
     const insertDecision = () => {
-      const decisao = new Array<Decision>()
-      let df = new Decision()
-      df.name = "New"
-      df.iduser = parseInt(usuario!.iduser)
-      decisao.push(...decisions)
-      decisao.push(df)
+      const decision = new Decision()
+      decision.name = "New"
+      decision.iduser = parseInt(usuario!.iduser)
 
-      /*
-      decisionService.inserir(df).then(
+      decisionService.inserir(decision).then(
         result => {
-          decisions.push(result)
-          df = result
+          decisions!.push(result)
+          handleDecision()
         }
       )
-      */
-      dispatch(setDecisions(decisao))
     }
 
     return (
