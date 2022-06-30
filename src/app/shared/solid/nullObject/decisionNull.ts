@@ -2,7 +2,7 @@ import { Decision } from "../../model/decision";
 
 class DecisionNull extends Decision {
 
-    public get idDecision(): string | undefined {
+    public get idDecision(): number | undefined {
         return undefined    
     }
     
