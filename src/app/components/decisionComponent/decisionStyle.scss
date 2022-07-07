@@ -61,13 +61,13 @@
     color: white;
 }
 
-.userName a{
+.userName div:nth-child(2) button{
     border-top: 2px solid gray;
     border-bottom: 2px solid rgb(202, 202, 202);
     border-right: 2px solid rgb(202, 202, 202);
     border-left: 2px solid rgb(202, 202, 202);
     text-decoration: none;
-    padding-inline: 86px;
+    padding-inline: 88px;
     color: white;
     background-color: #2b2114;
 }

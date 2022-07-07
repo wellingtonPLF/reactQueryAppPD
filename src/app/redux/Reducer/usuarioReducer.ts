@@ -1,9 +1,11 @@
-import UsuarioNull from "../../shared/solid/nullObject/usuarioNull";
+import { Usuario } from "../../shared/model/usuario";
 
-export default function usuarioReducer(state = new UsuarioNull(), action: any){
+const usuario = new Usuario()
+
+export default function usuarioReducer(state = usuario, action: any){
     switch (action.type){
         case 'Usuario':
-            return action.payload[0];
+            return action.payload
         default:
             return state;
     }

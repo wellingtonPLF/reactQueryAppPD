@@ -1,12 +1,12 @@
+import { Decision } from "../../shared/model/decision";
 
-export default function decisionReducer(state = {}, action: any){
+const decisions = new Array<Decision>()
+
+export default function decisionReducer(state = decisions, action: any){
     switch (action.type){
         case 'Decisions':
-            if (action.payload == null) {
-                return null;
-            }
             return action.payload
         default:
-            return null;
+            return state;
     }
 }

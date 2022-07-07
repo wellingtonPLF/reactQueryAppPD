@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDecisions } from '../../redux/Action/decisionAction';
 import { setUser } from '../../redux/Action/usuarioAction';
 import sessionStorage from '../../shared/utils/sessionStorage';
 import AuthLayout from './authLayout';
 
-const AuthScript = () => {
+interface Props {
+    alterarEstado: () => void;
+}
+
+const AuthScript = ({alterarEstado}: Props) => {
     const [token, setToken] = useState<number | undefined>()
+    const dcRedux = useSelector( (state: any) => state.decisionRedux)
+    const user = useSelector( (state: any) => state.usuarioRedux)
     const dispatch = useDispatch();
 
     const handleToken = (token: any) => {
@@ -23,8 +29,16 @@ const AuthScript = () => {
     const removeToken = () => {
         if (token != undefined){
             sessionStorage.removeToken(token)
-            dispatch(setUser(null))
-            dispatch(setDecisions(null))
+            const vai = user
+            user.iduser = undefined
+            user.name = ""
+            user.password = ""
+            user.email = ""
+            user.decisions = []
+            setUser(user)
+            dcRedux.length = 0
+            setDecisions(dcRedux)
+            alterarEstado()
         }
         setToken(undefined)
     }

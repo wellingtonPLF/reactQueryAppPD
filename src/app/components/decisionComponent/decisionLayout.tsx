@@ -1,31 +1,36 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Decision } from '../../shared/model/decision'
 import { Usuario } from '../../shared/model/usuario'
 import './decisionStyle.scss'
 
 interface Props {
-    usuario: Usuario | undefined
-    tokenId: number | undefined
+    usuario: Usuario | null | undefined
+    goToEdit: () => void;
     decisions: Array<Decision> | null | undefined
     saveEdit: (e: any, index: number) => void;
     addDecision: () => void;
     removeDecision: (index: number) => void;
+    show: () => void;
 }
 
-const DecisionLayout = ({ usuario, tokenId, decisions, saveEdit, removeDecision, addDecision } : Props) => {
+const DecisionLayout = ({ usuario, decisions, saveEdit, removeDecision, addDecision, goToEdit, show } : Props) => {
 
     return (
-        <>
+        <> 
             <div className="userName">
                 <div style={{width: '200px', marginLeft: '2px'}}>
                     {
-                        usuario && (<div style={{backgroundColor: "#2b2114"}}>{usuario.name}</div>)
+                        usuario?.iduser && (<div style={{backgroundColor: "#2b2114"}}>{usuario.name}</div>)
                     }
                 </div>
-                <div style={{marginTop: "7px"}}>
-                    { usuario ? (<Link style={{paddingBottom: '4px'}} to="/edit">edit</Link>) : 
-                        (<div style={{backgroundColor: "#2b2114"}}>.&nbsp;&nbsp;.&nbsp;&nbsp;.</div>)
+                <div>
+                    { usuario?.iduser ? 
+                        (
+                            <button style={{paddingBottom: '4px'}} onClick={goToEdit}>edit</button>
+                        ) : 
+                        (
+                            <div style={{backgroundColor: "#2b2114"}}>.&nbsp;&nbsp;.&nbsp;&nbsp;.</div>
+                        )
                     }
                 </div>
             </div>
@@ -34,28 +39,34 @@ const DecisionLayout = ({ usuario, tokenId, decisions, saveEdit, removeDecision,
                     <div>Decisions</div>
                 </div>
                 <div>
-                    { decisions && (
-                        <div>
-                            { 
-                                decisions.map( (el, index) => (
-                                    <div key={el.idDecision} className="decisao">
-                                        <div style={{marginBottom: '4px'}}>
-                                            <b>-</b>&nbsp;&nbsp;&nbsp;
-                                            <input onChange={ (e) => saveEdit(e, index)} spellCheck="false" value={el.name} />
+                    { usuario?.iduser && 
+                        (
+                            <>
+                                { decisions && (
+                                    
+                                    <>
+                                        <div>
+                                            { 
+                                                decisions.map( (el, index) => (
+                                                    <div key={el.idDecision} className="decisao">
+                                                        <div style={{marginBottom: '4px'}}>
+                                                            <b>-</b>&nbsp;&nbsp;&nbsp;
+                                                            <input onChange={ (e) => saveEdit(e, index)} spellCheck="false" value={el.name} />
+                                                        </div>
+                                                        <div onClick={() => removeDecision(index)} className="removeDecision">x</div>
+                                                    </div> 
+                                                ))
+                                            } 
                                         </div>
-                                        <div onClick={() => removeDecision(index)} className="removeDecision">x</div>
-                                    </div> 
-                                ))
-                            } 
-                        </div>
-                    )}
+                                        <button onClick={() => addDecision()} className='addDecisionBtn'>+</button>
+                                    </>
+                                )}
+                            </>
+                        )
+                    }   
                 </div>
-                {
-                    usuario && (
-                        <button onClick={() => addDecision()} className='addDecisionBtn'>+</button>
-                    )
-                }
             </div>
+            {/*<button onClick={ () => show()}>clique</button>*/}
         </>
     );
 };

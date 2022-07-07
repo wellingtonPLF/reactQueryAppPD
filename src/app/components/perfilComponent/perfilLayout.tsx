@@ -2,7 +2,7 @@ import './perfilStyle.scss'
 import { Usuario } from './../../shared/model/usuario'
 
 interface Props {
-    usuario: Usuario | undefined
+    usuario: Usuario | undefined | null
     url: string
     imageHandler: (e: any) => void;
 }

@@ -1,63 +1,81 @@
 import { useEffect, useState } from "react";
 import DecisionLayout from "./decisionLayout";
-import usuarioService from "../../shared/services/userService";
 import decisionService from "../../shared/services/decisionService";
 import { Decision } from "../../shared/model/decision";
-import sessionStorage from "../../shared/utils/sessionStorage";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../redux/Action/usuarioAction";
 import { setDecisions } from "../../redux/Action/decisionAction";
+import { Usuario } from "../../shared/model/usuario";
+import { useNavigate } from "react-router-dom";
+import { queryClient } from "../../shared/services/queryClient";
+import { setUser } from "../../redux/Action/usuarioAction";
 
-const DecisionScript = () => {
-    const [tokenId, setTokenId] = useState()
-    const dispatch = useDispatch();
-    const usuario = useSelector( (state: any) => state.usuarioRedux)
+interface Props {
+  usuario: Usuario | null | undefined;
+}
+
+const DecisionScript = ({usuario}: Props) => {
+    // ----------------------------------------------- Instancies -----------------------------------------------//
+    const navegate = useNavigate();
+    const user = useSelector( (state: any) => state.usuarioRedux)
     const dcRedux = useSelector( (state: any) => state.decisionRedux)
     const [decisions, changeDecisions] = useState<Array<Decision> | null>()
 
-    const handleToken = (token: any) => {
-      setTokenId(token)
-    }
-
+    // ------------------------------------------------ Logic ---------------------------------------------------//
     const handleDecision = () => {
       if (decisions != null && decisions != undefined ){
         changeDecisions([...decisions])
       }
     }
 
-    useEffect( () => {
-      changeDecisions(dcRedux)
-    }, [dcRedux])
+    const show = () => {
+      console.log("Decisions: ",decisions, "Redux: ", dcRedux)
+    }
 
+    const handleUsuario = (decisoes: Array<Decision>) => {
+      const mappingDecisions = decisoes!.map( dec => dec.idDecision) 
+      user.decisions.length = 0
+      const all_decisions = user.decisions
+      for (let d of mappingDecisions){
+        if (d != undefined){
+          all_decisions.push(d)
+        }
+      }
+      setUser(user)
+    }
+
+    const navegateToEdit = () => {
+      if (decisions){
+        handleUsuario(decisions)
+      }
+      navegate("/edit")
+    }
+ 
     useEffect( () => {
-      const token = sessionStorage.getToken('usuario')
-      handleToken(token)
-      if(token != undefined){
-        usuarioService.pesquisarPorId(parseInt(token)).then(
-          it => {
-            dispatch(setUser(it))
-            if(it.decisions != undefined){
-              const dc = new Array<Decision>()
-              for(let decisaoID of it.decisions){
-                decisionService.pesquisarPorId(decisaoID.toString()).then(
-                  result => {
-                    dc.push(result)
-                    if (dc.length == it.decisions.length){
-                      changeDecisions(dc)
-                      dispatch(setDecisions(dc))
-                    }
+      if(usuario){
+        if(usuario.decisions){
+          const len = usuario.decisions.length
+          const dc = new Array<Decision>()
+          if (len != 0){
+            for(let decisaoID of usuario.decisions){
+              decisionService.pesquisarPorId(decisaoID).then(
+                result => {
+                  dc.push(result)
+                  if (dc.length == len){
+                    setDecisions(dc)
+                    changeDecisions(dc)
                   }
-                )
-              }
+                }
+              )
             }
           }
-        );
+          else{
+            changeDecisions(dc)
+          }
+        }
       }
-      else{
-        dispatch(setUser(null))
-        changeDecisions(null)
-      }
-    }, [])
+    }, [usuario])
+
+    // ---------------------------------------------Edit Insert Delete---------------------------------------------//
 
     const editDecision = (e: any, index: number) => {
       decisions![index].name = e.target.value
@@ -86,37 +104,47 @@ const DecisionScript = () => {
       }
     }
 
+    const insertDecision = () => {
+      const decision = new Decision()
+      decision.name = "New"
+      if (usuario){
+        if (usuario.iduser){
+          decision.iduser = parseInt(usuario.iduser)
+        }
+      }
+      decisionService.inserir(decision).then(
+        result => {
+          decisions!.push(result)
+          if(decisions){
+            handleUsuario(decisions)
+          }
+          handleDecision()
+        }
+      )
+    }
+
     const removingDecision = (index: number) => {
       const id = decisions![index].idDecision;
       if(id != undefined){
         decisionService.remover(id).then(
           it =>{
             decisions!.splice(index, 1);
+            if(decisions){
+              handleUsuario(decisions)
+            }
             handleDecision()
           }
         )
       }
     }
-
-    const insertDecision = () => {
-      const decision = new Decision()
-      decision.name = "New"
-      decision.iduser = parseInt(usuario!.iduser)
-
-      decisionService.inserir(decision).then(
-        result => {
-          decisions!.push(result)
-          handleDecision()
-        }
-      )
-    }
-
+    // ------------------------------------------------ View -------------------------------------------//
     return (
         <>
-          <DecisionLayout usuario={usuario} tokenId={tokenId} decisions={decisions}
+          <DecisionLayout usuario={usuario} decisions={decisions} goToEdit={navegateToEdit} show={show}
           saveEdit={editDecision} removeDecision={removingDecision} addDecision={insertDecision} />  
         </>
     );
+    // ---------------------------------------------------------------------------------------------------//
 };
 
 export default DecisionScript;

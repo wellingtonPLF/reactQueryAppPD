@@ -1,17 +1,19 @@
-import React, { ChangeEventHandler } from 'react';
 import './cadastroStyle.scss'
 import { Usuario } from './../../shared/model/usuario';
 import { Link } from 'react-router-dom';
 
 interface Props {
     usuario: Usuario;
+    fine: boolean;
     setName: (e: string) => void;
     setPassword: (e: string) => void;
     setEmail: (e: string) => void;
+    counting: number;
     cadastrarUsuario: () => void;
 }
 
-const CadastroLayout = ({ usuario, setName, setPassword, setEmail, cadastrarUsuario }: Props) => {
+const CadastroLayout = ({ usuario, setName, setPassword, setEmail, cadastrarUsuario, fine, counting }: Props) => {
+
     return (
         <div className='cadastroLayout'>
             <div className='cadastro'>
@@ -39,6 +41,11 @@ const CadastroLayout = ({ usuario, setName, setPassword, setEmail, cadastrarUsua
                         Confirmar
                     </button>
                 </div>
+                { fine && (
+                    <div style={{color: 'red', width: '220px'}}>
+                        Um usuario com o mesmo nome já existe! [Tentativa: {counting}]
+                    </div>
+                )}
             </div>
         </div>
     );

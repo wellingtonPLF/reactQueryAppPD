@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Usuario } from '../../shared/model/usuario';
 import usuarioService from './../../shared/services/userService';
 import LoginLayout from './loginLayout';
@@ -11,6 +11,7 @@ import { setUser } from '../../redux/Action/usuarioAction';
 const LoginScript = () => {
     const [usuario, setUsuario] = useState(new UsuarioNull())
     const navegate = useNavigate()
+    const user = useSelector( (state: any) => state.usuarioRedux)
     const [countFails, setCountFails] = useState(0)
     const [loginAcception, setLoginAcception ] = useState(false)
     const dispatch = useDispatch();
@@ -53,7 +54,13 @@ const LoginScript = () => {
                                 if (result.password == usuario.password){
                                     sessionStorage.setToken('usuario', id)
                                     setLoginAcception(false)
-                                    dispatch(setUser(usuario))
+                                    // const resultado = new Usuario(result.iduser,result.name, result.password, result.email, result.decisions)
+                                    user.iduser = result.iduser
+                                    user.name = result.name
+                                    user.password = result.password
+                                    user.email = result.email
+                                    user.decisions = result.decisions
+                                    setUser(user)
                                     navegate("/")
                                 }
                                 else{

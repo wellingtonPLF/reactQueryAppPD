@@ -2,55 +2,65 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import userService from '../../shared/services/userService';
 import EditView from './editView';
 import sessionStorage from '../../shared/utils/sessionStorage';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../../redux/Action/usuarioAction';
+import { Usuario } from '../../shared/model/usuario';
+import { useQuery } from 'react-query';
+import { queryClient } from '../../shared/services/queryClient';
+import { useNavigate } from 'react-router-dom';
 
 const EditScript = () => {
 
-    const dispatch = useDispatch();
-    const usuario = useSelector( (state: any) => state.usuarioRedux)
-
-    const handleUsuarioChange = (obj: any) => {
-        dispatch(setUser(obj))
-    }
-
-    useEffect( () => {
+    const navegate = useNavigate()
+    const [user, putUser] = useState<Usuario>()
+    
+    useQuery('usuario', () => {
         const token = sessionStorage.getToken('usuario')
         if (token){
             userService.pesquisarPorId(parseInt(token)).then(
                 it => {
-                    dispatch(setUser(it))
+                    putUser(it)
                 }
             )
         }
-    }, [])
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+    const handleUsuarioChange = (obj: any) => {
+        putUser(obj)
+    }
 
     const setUsuario = (userAtr: string, event: ChangeEvent<HTMLInputElement>) => {
         
         if(userAtr === 'name') {
-            handleUsuarioChange({...usuario, name: event.target.value})
+            handleUsuarioChange({...user, name: event.target.value})
     
         }
         else if (userAtr === 'email'){
-            handleUsuarioChange({...usuario, email: event.target.value})
+            handleUsuarioChange({...user, email: event.target.value})
         }
         else if (userAtr === 'password'){
-            handleUsuarioChange({...usuario, password: event.target.value})
+            handleUsuarioChange({...user, password: event.target.value})
         }
         else{
-            handleUsuarioChange({...usuario});
+            handleUsuarioChange({...user});
         }
     }
 
     const changeUser = () => {
-        userService.atualizar(usuario).then(
-            it => {}
-        )
+        if(user){
+            userService.atualizar(user).then(
+                it => {
+                    queryClient.invalidateQueries("user")
+                    navegate("/")
+                }
+            )
+        }
     }
 
     return (
         <>
-            <EditView user={usuario} inputUser={setUsuario} userChange={changeUser}/>
+            { user && (<EditView user={user} inputUser={setUsuario} userChange={changeUser}/>)}
         </>
     );
 };

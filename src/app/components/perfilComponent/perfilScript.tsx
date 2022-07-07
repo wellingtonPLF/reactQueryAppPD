@@ -1,29 +1,18 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../redux/Action/usuarioAction";
-import userService from "../../shared/services/userService";
+import { useState } from "react";
+import { Usuario } from "../../shared/model/usuario";
 import PerfilLayout from "./perfilLayout";
 
-const PerfilScript = () => {
+interface Props {
+    usuario: Usuario | null | undefined;
+}
+
+const PerfilScript = ({usuario}: Props) => {
     
-    const [url, setUrl] = useState('')
-    const dispatch = useDispatch()
-    const usuario = useSelector( (state: any) => state.usuarioRedux)
+    const [url, setUrl] = useState('')    
 
     const handleUrl = (value: any) => {
         setUrl(value)
     }
-
-    useEffect( () => {
-        const token = sessionStorage.getItem('usuario')
-        if(token){
-            userService.pesquisarPorId(parseInt(token)).then(
-                it => {
-                    dispatch(setUser(it))
-                }
-            )
-        }
-    }, [])
 
     const handleUserImage = (e: any) => {
         const selectedFile = e.target.files[0];
