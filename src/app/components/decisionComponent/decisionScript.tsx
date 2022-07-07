@@ -36,18 +36,24 @@ const DecisionScript = () => {
         usuarioService.pesquisarPorId(parseInt(token)).then(
           it => {
             dispatch(setUser(it))
-            if(it.decisions != undefined){
+            if(it.decisions){
               const dc = new Array<Decision>()
-              for(let decisaoID of it.decisions){
-                decisionService.pesquisarPorId(decisaoID.toString()).then(
-                  result => {
-                    dc.push(result)
-                    if (dc.length == it.decisions.length){
-                      changeDecisions(dc)
-                      dispatch(setDecisions(dc))
+              if (it.decisions.length != 0){
+                for(let decisaoID of it.decisions){
+                  decisionService.pesquisarPorId(decisaoID.toString()).then(
+                    result => {
+                      dc.push(result)
+                      if (dc.length == it.decisions.length){
+                        changeDecisions(dc)
+                        dispatch(setDecisions(dc))
+                      }
                     }
-                  }
-                )
+                  )
+                }
+              }
+              else{
+                changeDecisions(dc)
+                dispatch(setDecisions(dc))
               }
             }
           }

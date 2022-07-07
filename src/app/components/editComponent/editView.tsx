@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { Usuario } from '../../shared/model/usuario';
 import './editStyle.scss'
 
@@ -42,10 +43,10 @@ const EditView = ({user, userChange, inputUser}: EditProps) => {
                     </div>
                     <div className={'bntConfirm'}>
                         <button>
-                            <a href='/'>cancel</a>
+                            <Link to='/'>cancel</Link>
                         </button>
                         <button onClick={userChange}>
-                            <a href='/'>confirm</a>
+                            <Link to='/'>confirm</Link>
                         </button>
                     </div>
                 </div>
