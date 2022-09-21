@@ -3,7 +3,7 @@ import { Usuario } from "../model/usuario";
 
 class UsuarioService{
     
-    api = axios.create({ baseURL: 'https://auth-pd-service.herokuapp.com/users/'})
+    api = axios.create({ baseURL: 'https://auth-service-pd.herokuapp.com/users/'})
     //api = axios.create({ baseURL: 'http://localhost:8081/users'})
     // api = axios.create({ baseURL: 'http://localhost:8088/users'})
 
